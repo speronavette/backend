@@ -158,15 +158,11 @@ process.on('SIGTERM', gracefulShutdown);
 process.on('SIGINT', gracefulShutdown);
 process.on('unhandledRejection', (err) => {
   logger.error(`Promesse rejetée non gérée: ${err.message}`);
-  if (process.env.NODE_ENV === 'production') {
-    gracefulShutdown();
-  }
+  // Ne pas tuer le serveur sur une rejection non gérée
 });
 process.on('uncaughtException', (err) => {
   logger.error(`Exception non capturée: ${err.message}`);
-  if (process.env.NODE_ENV === 'production') {
-    gracefulShutdown();
-  }
+  // Ne pas tuer le serveur sur une exception non capturée
 });
 
 // ====== DÉMARRAGE DU SERVEUR ======
